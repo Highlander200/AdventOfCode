@@ -1,9 +1,3 @@
-maxim={
-    "red":12,
-    "green":13,
-    "blue":14,
-}
-
 som=0
 with open("input.txt","r") as f:
     
@@ -12,6 +6,9 @@ with open("input.txt","r") as f:
         i=int(row.split(":")[0].split(" ")[1])
         row=row.split(":")[1].strip()
         records=row.split(";")
+
+        nums={"red":0,"green":0,"blue":0}
+
         for e in records:
             e=e.strip().split(",")
             for color in e:
@@ -19,10 +16,11 @@ with open("input.txt","r") as f:
                 n=int(color[0])
                 colour=color[1]
 
-                if(n>maxim[colour]):
-                    error=True
+                nums[colour]=max(nums[colour],n)
 
-        if(not error):
-            som+=i
+        mul=1
+        for e in nums.values():
+            mul*=e
+        som+=mul
     
 print(som)
