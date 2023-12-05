@@ -1,3 +1,5 @@
+from multipledispatch import dispatch
+
 map=dict()
 
 {
@@ -5,6 +7,15 @@ map=dict()
         ("dest","src","len")
     ]
 }
+
+@dispatch(int,int,int)
+def inRange(n,startR,endR):
+    return n>=startR and n<endR
+
+@dispatch(int,int,int,int)
+def inRange(start,end,startR,endR):
+    return start>=startR and end<=endR
+
 
 values=list()
 
@@ -28,24 +39,26 @@ with open("input.txt","r") as f:
 
 for transformlist in map.values():
     print(transformlist)
-    modified=[False for x in values]
+    newValues=list()
     
     for transform in transformlist:
         dest=transform[0]
         src=transform[1]
         lenTransf=transform[2]
+        endSrc=src+lenTransf
         diff=dest-src
         for i in range(len(values)):
             value=values[i]
 
             start=value[0]
             lenVal=value[1]
-            
-            if(modified[i]):
-                continue
+            endVal=start+lenVal
 
-            if(value>=src and value<src+lenTransf):
-                values[i]=value+diff
-                modified[i]=True
-
+            if(inRange(start,endVal,src,endSrc)):
+                newValues.append=(start+diff,lenVal)
+            elif(inRange(start,src,endSrc) and (not inRange(endVal,src,endSrc))):
+                newValues.append=(start+diff,endSrc+diff)
+                newValues.append=(endSrc,endVal)
+            elif(start<src and endVal<endSrc)
+    values=newValues.copy()
 print(min(values))
