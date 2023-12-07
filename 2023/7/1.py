@@ -34,7 +34,7 @@ def compare(a):
     a=a.replace("A","E")
     a=a.replace("K","D")
     a=a.replace("Q","C")
-    a=a.replace("J","1")
+    a=a.replace("J","B")
     a=a.replace("T","A")
     return (powera,a)
 
